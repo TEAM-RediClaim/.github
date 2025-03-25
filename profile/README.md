@@ -1,6 +1,12 @@
-## Architecture Design
-### Scenario 1 (Redis K3s Deployment)
-![image](https://github.com/user-attachments/assets/3b5397ce-93e9-4066-b1a7-c4b56e17fd69)
+## RediClaim: One-Click Rapid Coupon Issuance System
 
-### Scenario 2 (Preinstalled Redis Image)
-![image](https://github.com/user-attachments/assets/7c96c200-a779-4563-8c32-5f3ab51d4251)
+**RediClaim**은 고트래픽 환경에서도 안정적인 쿠폰 발급을 목표로 하는 오픈소스 프로젝트입니다.  
+단일 서버와 RDB 기반의 구조로 시작해, 트래픽 증가에 따라 **Redis 기반 동시성 제어**와 **Message Queue**를 도입합니다.  
+
+프로덕션 환경은 **K3s 클러스터** 기반으로 구성되며, Helm을 통한 **Prometheus-Grafana 스택**으로 인프라를 모니터링합니다.  
+**nginx Proxy** 설정을 통해 외부 접근을 제어하고 안정성을 높였습니다.  
+
+> 트래픽 규모에 따라 점진적으로 아키텍처를 진화시키는 쿠폰 시스템의 레퍼런스를 제시합니다.
+>  -  시나리오 1: 이상적인 쿠폰 발급 (단일 서버, 단일 데이터베이스 구조)
+>  -  시나리오 2: 동시성 이슈가 발생하는 쿠폰 발급 (중간 규모 트래픽, 단일 서버, 단일 데이터베이스 구조)
+>  -  시나리오 3: 동시성 이슈가 발생하는 쿠폰 발급 (대규모 트래픽, 서버 수평적 확장, Redis sortedSet, MessageQ)
